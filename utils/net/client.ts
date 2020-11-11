@@ -18,7 +18,7 @@ export abstract class Client{
   }
 
   
-  protected sendRequest<T>(url: string, options?: Options) {
+  protected sendRequest<T>(url: string, options?: Options): T {
     return ky.post(url, options ?? this.options).json<T>();
   }
 
