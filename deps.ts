@@ -1,6 +1,6 @@
 // @deno-types="https://unpkg.com/ky@0.25.1/index.d.ts"
 import ky from "https://unpkg.com/ky@0.25.1/index.js";
-export * from "https://unpkg.com/ky@0.25.1/index.d.ts";
+export type {AfterResponseHook, BeforeRequestHook, BeforeRetryHook, DownloadProgress, Hooks, Input, Options, NormalizedOptions, ResponsePromise, RetryOptions} from "https://unpkg.com/ky@0.25.1/index.d.ts";
 
 import { faker } from "https://raw.githubusercontent.com/jackfiszr/deno-faker/master/mod.ts";
 
