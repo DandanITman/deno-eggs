@@ -1,7 +1,14 @@
-// @deno-types="https://unpkg.com/ky@0.24.0/index.d.ts"
-import ky from "https://unpkg.com/ky@0.24.0/index.js";
-export * from "https://unpkg.com/ky@0.24.0/index.d.ts"
+// @deno-types="https://unpkg.com/ky@0.25.1/index.d.ts"
+import ky from "https://unpkg.com/ky@0.25.1/index.js";
+export * from "https://unpkg.com/ky@0.25.1/index.d.ts";
+
+import { faker } from "https://raw.githubusercontent.com/jackfiszr/deno-faker/master/mod.ts";
+
+// @deno-types="https://deno.land/x/fuse@v6.4.1/dist/fuse.d.ts"
+import Fuse from 'https://deno.land/x/fuse@v6.4.1/dist/fuse.esm.min.js'
 
 export {
-    ky
+    ky,
+    faker,
+    Fuse,
 }
