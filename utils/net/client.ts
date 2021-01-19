@@ -17,13 +17,13 @@ export abstract class Client{
   }
 
   
-  protected async sendRequest<T>(url: string, options?: Options, errorHandler?: Function): Promise<T | undefined> {
+  protected async sendRequest<T, K>(url: string, options?: Options, errorHandler?: (...args: unknown[]) => K): Promise<T | K> {
     try {
       return await ky.post(url, options ?? this.options).json<T>();
     } catch (err) {
       const handle = errorHandler ?? this.errorHandler
       if (handle) {
-        handle(err);
+        return handle(err);
       } else {
         throw new Error(err);
       }
