@@ -1,25 +1,33 @@
 import { ky, Options } from "../../deps.ts";
 
-function isString(val: any): val is string {
-  if (typeof val == "string") {
-    return true;
-  } else {
-    return false;
-  }
+function defaultErrorHandler(err: any) {
+  console.log(new Error(err));
 }
 
 export abstract class Client{
   
   options: Options | undefined;
-  decoder = new TextDecoder("utf-8");
+  private errorHandler: Function;
 
-  constructor(options: Options) {
+  constructor(
+    options: Options,
+    errorHandler: Function = defaultErrorHandler) {
     this.options = options;
+    this.errorHandler = errorHandler;
   }
 
   
-  protected sendRequest<T>(url: string, options?: Options): Promise<T> {
-    return ky.post(url, options ?? this.options).json<T>();
+  protected async sendRequest<T>(url: string, options?: Options, errorHandler?: Function): Promise<T | undefined> {
+    try {
+      return await ky.post(url, options ?? this.options).json<T>();
+    } catch (err) {
+      const handle = errorHandler ?? this.errorHandler
+      if (handle) {
+        handle(err);
+      } else {
+        throw new Error(err);
+      }
+    }
   }
-
 }
+ 
