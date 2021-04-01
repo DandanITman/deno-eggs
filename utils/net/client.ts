@@ -15,16 +15,17 @@ K extends undefined
 ? T | ReturnType<ErrorHandler<Z>>
 : never
 
-export abstract class Client<A>{
+export abstract class Client{
   
   options: Options | undefined;
-  private errorHandler?: ErrorHandler<A>;
+  // private errorHandler?: ErrorHandler<DefaultErrorHandlerReturnType>;
 
   constructor(
     options: Options,
-    errorHandler?: ErrorHandler<A>) {
+    // errorHandler?: ErrorHandler<DefaultErrorHandlerReturnType>
+    ) {
     this.options = options;
-    this.errorHandler = errorHandler;
+    // this.errorHandler = errorHandler;
   }
 
   
@@ -49,9 +50,14 @@ export abstract class Client<A>{
 
 type Something = ErrorHandler<boolean>;
 
-class TestClient extends Client<boolean> {
+class TestClient extends Client {
+
+  constructor() {
+    super({})
+  }
+
   async run() {
-    const result = await this.sendRequest("hello", {}, () => true);
+    const result = await this.sendRequest("hello", {});
     return result;
   }
 }
