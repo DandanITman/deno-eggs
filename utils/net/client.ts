@@ -6,9 +6,9 @@ function defaultErrorHandler(err: any) {
 
 type NotNull<T> = T extends null ? never : T;
 
-type ErrorHandler<R> = (...args: unknown[]) => R;
+type ErrorHandler<R = void> = (...args: unknown[]) => R;
 
-type HandledResponse<T, K extends (ErrorHandler<unknown> | undefined) = undefined> =
+type HandledResponse<T, K extends (ErrorHandler | undefined) = undefined> =
 K extends undefined
 ? NotNull<T>
 : K extends ErrorHandler<infer Z>
@@ -25,7 +25,7 @@ export abstract class Client{
     this.options = options;
   }
 
-  protected async sendRequest<ErrorType, ResponseType=object>(
+  protected async sendRequest<ErrorType=void, ResponseType=object>(
     url: string,
     options?: Options,
     errorHandler?: ErrorHandler<ErrorType>

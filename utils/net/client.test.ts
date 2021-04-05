@@ -10,15 +10,16 @@ class MockClient extends Client {
 
 class TestClient extends Client {
 
-    constructor() {
-      super({})
-    }
-  
-    async run() {
-      const result = await this.sendRequest("hello", undefined, ()=>true);
-      return result;
-    }
+  constructor() {
+    super({})
   }
+
+  async run() {
+    const result = await this.sendRequest("hello");
+    const result2 = await this.sendRequest("hello", {}, () => true);
+    return result;
+  }
+}
 
 Deno.test('should instantiate', () => {
     const opts: Options = {};
