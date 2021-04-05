@@ -4,7 +4,7 @@ import { assertExists } from "../../deps.ts";
 
 class MockClient extends Client {
     run() {
-        return this.sendRequest("", )
+        return this.post("", )
     }
 }
 
@@ -15,8 +15,9 @@ class TestClient extends Client {
   }
 
   async run() {
-    const result = await this.sendRequest("hello");
-    const result2 = await this.sendRequest("hello", {}, () => true);
+    const result = await this.post("hello");
+    const result2 = await this.post("hello", {}, () => true);
+    const result3 = await this.postRaw("hello", undefined, () => true);
     return result;
   }
 }

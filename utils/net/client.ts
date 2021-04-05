@@ -1,4 +1,4 @@
-import { ky, Options } from "../../deps.ts";
+import { ky, Options, ResponsePromise } from "../../deps.ts";
 
 function defaultErrorHandler(err: any) {
   console.log(new Error(err));
@@ -25,21 +25,29 @@ export abstract class Client{
     this.options = options;
   }
 
-  protected async sendRequest<ErrorType=void, ResponseType=object>(
+  protected postRaw = async <ErrorType=void>(
     url: string,
     options?: Options,
     errorHandler?: ErrorHandler<ErrorType>
-    ): Promise<HandledResponse<ResponseType, ErrorHandler<ErrorType>>>{
+    ): Promise<HandledResponse<ResponsePromise, ErrorHandler<ErrorType>> | Error> =>
+    this.handleError(
+      async () => await ky.post(url, options ?? this.options),
+        errorHandler)
+
+  protected post = async <ErrorType=void, ResponseType=object>(
+    url: string,
+    options?: Options,
+    errorHandler?: ErrorHandler<ErrorType>
+    ): Promise<HandledResponse<ResponseType, ErrorHandler<ErrorType>> | Error> =>
+    this.handleError(
+      async () => await ky.post(url, options ?? this.options).json<ResponseType>(),
+      errorHandler)
+
+  private handleError = async <ErrorType, ResponseType>(callback: () => ResponseType, handler?: ErrorHandler<ErrorType>): Promise<Error | ErrorType | ResponseType> => {
     try {
-      const response = await ky.post(url, options ?? this.options).json<ResponseType>();
-      return response;
+      return await callback();
     } catch (err) {
-      const handle = errorHandler // ?? this.errorHandler
-      if (handle) {
-        return handle(err);
-      } else {
-        throw new Error(err);
-      }
+      return (handler) ? await handler(err) : new Error(err);
     }
   }
 }
