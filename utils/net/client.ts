@@ -39,7 +39,7 @@ export abstract class Client{
     options?: Options,
     errorHandler?: ErrorHandler<ErrorType>
     ): Promise<HandledResponse<ResponseType, ErrorHandler<ErrorType>> | Error> =>
-    this.handleError(
+    await this.handleError(
       async () => await ky.post(url, options ?? this.options).json<ResponseType>(),
       errorHandler)
 
