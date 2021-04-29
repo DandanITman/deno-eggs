@@ -25,6 +25,24 @@ export abstract class Client{
     this.options = options;
   }
 
+  protected get = async <ErrorType=void, ResponseType=object>(
+    url: string,
+    options?: Options,
+    errorHandler?: ErrorHandler<ErrorType>
+    ): Promise<HandledResponse<ResponseType, ErrorHandler<ErrorType>> | Error> =>
+    await this.handleError(
+      async () => await ky.get(url, options ?? this.options).json<ResponseType>(),
+      errorHandler)
+  
+  protected getRaw = async <ErrorType=void>(
+    url: string,
+    options?: Options,
+    errorHandler?: ErrorHandler<ErrorType>
+    ): Promise<HandledResponse<ResponsePromise, ErrorHandler<ErrorType>> | Error> =>
+    await this.handleError(
+      async () => await ky.get(url, options ?? this.options),
+        errorHandler)
+
   protected postRaw = async <ErrorType=void>(
     url: string,
     options?: Options,
