@@ -1,6 +1,7 @@
-// @deno-types="https://unpkg.com/ky@0.27.0/index.d.ts"
-import ky from "https://unpkg.com/ky@0.27.0/index.js";
-export type {AfterResponseHook, BeforeRequestHook, BeforeRetryHook, DownloadProgress, Hooks, Input, Options, NormalizedOptions, ResponsePromise, RetryOptions} from "https://unpkg.com/ky@0.25.1/index.d.ts";
+import ky from 'https://cdn.skypack.dev/ky?dts';
+export * from 'https://cdn.skypack.dev/ky?dts';
+
+// export type {AfterResponseHook, BeforeRequestHook, BeforeRetryHook, DownloadProgress, Hooks, Input, Options, NormalizedOptions, ResponsePromise, RetryOptions} from "https://unpkg.com/ky@0.25.1/index.d.ts";
 
 import { faker } from "https://raw.githubusercontent.com/jackfiszr/deno-faker/master/mod.ts";
 
